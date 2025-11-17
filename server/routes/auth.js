@@ -12,26 +12,25 @@ import auth from "../middleware/auth.js";
 // Register user (optionally set role if admin)
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
+
     const existing = await User.findOne({ email });
     if (existing)
       return res.status(400).json({ message: "User already exists" });
 
     const hashed = await bcrypt.hash(password, 10);
-    let userRole = "user";
-    // If logged in and admin, allow setting role
-    if (req.user && req.user.role === "admin" && role) {
-      userRole = role;
-    }
+
     const user = await User.create({
       name,
       email,
       password: hashed,
-      role: userRole,
+      role: "user", // ALWAYS a normal user
     });
-    res.json({ message: `User registered successfully as ${userRole}` });
+
+    res.json({ message: "User registered successfully" });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    console.error("REGISTER ERROR:", e);
+    res.status(500).json({ message: "Registration failed" });
   }
 });
 
@@ -62,5 +61,15 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: e.message });
   }
 });
+// Get current logged in user
+router.get("/me", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ message: "Failed to load user" });
+  }
+});
+
 
 export default router;

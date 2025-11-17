@@ -12,13 +12,14 @@ export default function Login() {
     e.preventDefault();
     setErr(null);
     try {
-      const res = await API.post("/auth/login", { email, password });
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      const response = await API.post("/auth/login", { email, password });
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
       navigate("/dashboard");
     } catch (e) {
-      setErr(e.res?.data?.message || "Invalid email or password.");
+      setErr(e.response?.data?.message || "Invalid email or password.");
+
     }
   }
 
