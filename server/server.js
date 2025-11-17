@@ -22,23 +22,6 @@ app.use("/api/resources", resourceRoutes);
 app.use('/api/alerts', alertRoutes)
 
 
-// Public alerts endpoint (for Home.jsx)
-app.get("/api/alerts", (req, res) => {
-  res.json([
-    {
-      _id: "alert1",
-      title: "Flood Warning",
-      description: "Heavy rainfall in low-lying areas. Stay alert.",
-      createdAt: new Date(),
-    },
-    {
-      _id: "alert2",
-      title: "Heatwave Alert",
-      description: "High temperatures expected this week.",
-      createdAt: new Date(),
-    },
-  ]);
-});
  const port=process.env.PORT||3000
  app.listen(port,()=>{
     console.log(`server is running at http://localhost:${port}`)

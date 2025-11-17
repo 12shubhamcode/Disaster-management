@@ -5,7 +5,6 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-
 router.get("/", async (req, res) => {
   try {
     const alerts = await Alert.find().sort({ createdAt: -1 });
@@ -15,7 +14,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-
 router.post("/", auth, async (req, res) => {
   try {
     if (req.user.role !== "admin")
@@ -24,6 +22,19 @@ router.post("/", auth, async (req, res) => {
     res.json(alert);
   } catch (err) {
     res.status(500).json({ message: "Failed to create alert" });
+  }
+});
+
+// Delete alert (admin only)
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    if (req.user.role !== "admin")
+      return res.status(403).json({ message: "Forbidden" });
+    const deleted = await Alert.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: "Alert not found" });
+    res.json({ message: "Alert deleted" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to delete alert" });
   }
 });
 
