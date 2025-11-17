@@ -14,9 +14,11 @@ export default function Login() {
     try {
       const res = await API.post("/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
       navigate("/dashboard");
     } catch (e) {
-      setErr(e.response?.data?.message || "Invalid email or password.");
+      setErr(e.res?.data?.message || "Invalid email or password.");
     }
   }
 

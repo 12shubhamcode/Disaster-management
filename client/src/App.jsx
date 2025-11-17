@@ -21,7 +21,18 @@ export default function App() {
           <Route path="/report" element={<ReportForm />} />
           <Route path="/resources" element={<ResourceList />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route
+            path="/admin"
+            element={
+              JSON.parse(localStorage.getItem("user"))?.role === "admin" ? (
+                <AdminDashboard />
+              ) : (
+                <h1 className="text-center text-red-600 mt-20 text-xl">
+                  Access Denied
+                </h1>
+              )
+            }
+          />
         </Routes>
       </main>
     </div>

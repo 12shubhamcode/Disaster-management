@@ -5,12 +5,12 @@ import { Menu, X } from "lucide-react"; // For hamburger icons
 export default function Navbar() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user")); // 👈 get user details
+  const user = JSON.parse(localStorage.getItem("user")); // Get user details
   const [isOpen, setIsOpen] = useState(false);
 
   function logout() {
     localStorage.removeItem("token");
-    localStorage.removeItem("user"); // 👈 clear user info on logout
+    localStorage.removeItem("user"); //clear user info on logout
     navigate("/login");
   }
 
@@ -35,42 +35,46 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-4">
-          <Link
-            to="/resources"
-            className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
-          >
-            Resources
-          </Link>
-          <Link
-            to="/report"
-            className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
-          >
-            Report
-          </Link>
-          <Link
-            to="/dashboard"
-            className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
-          >
-            Dashboard
-          </Link>
-
-          {/* 👇 Show Admin Panel link only if user is admin */}
-          {user?.role === "admin" && (
-            <Link
-              to="/admin"
-              className="px-3 py-2 rounded-md text-yellow-600 hover:bg-yellow-50 hover:text-yellow-700 font-semibold transition"
-            >
-              Admin Panel
-            </Link>
-          )}
-
           {token ? (
-            <button
-              onClick={logout}
-              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-            >
-              Logout
-            </button>
+            <>
+              <Link
+                to="/resources"
+                className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+              >
+                Resources
+              </Link>
+
+              <Link
+                to="/report"
+                className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+              >
+                Report
+              </Link>
+
+              {/* SHOW ADMIN ONLY IF role === "admin" */}
+              {user?.role === "admin" && (
+                <Link
+                  to="/admin"
+                  className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                >
+                  Admin Panel
+                </Link>
+              )}
+
+              <Link
+                to="/dashboard"
+                className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+              >
+                Dashboard
+              </Link>
+
+              <button
+                onClick={logout}
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+              >
+                Logout
+              </button>
+            </>
           ) : (
             <>
               <Link
@@ -94,49 +98,53 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white shadow-md border-t animate-slide-down">
           <div className="flex flex-col p-4 space-y-2">
-            <Link
-              to="/resources"
-              onClick={() => setIsOpen(false)}
-              className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
-            >
-              Resources
-            </Link>
-            <Link
-              to="/report"
-              onClick={() => setIsOpen(false)}
-              className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
-            >
-              Report
-            </Link>
-            <Link
-              to="/dashboard"
-              onClick={() => setIsOpen(false)}
-              className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
-            >
-              Dashboard
-            </Link>
-
-            {/* 👇 Mobile admin link */}
-            {user?.role === "admin" && (
-              <Link
-                to="/admin"
-                onClick={() => setIsOpen(false)}
-                className="px-3 py-2 rounded-md text-yellow-600 hover:bg-yellow-50 hover:text-yellow-700 font-semibold transition"
-              >
-                Admin Panel
-              </Link>
-            )}
-
             {token ? (
-              <button
-                onClick={() => {
-                  logout();
-                  setIsOpen(false);
-                }}
-                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-              >
-                Logout
-              </button>
+              <>
+                <Link
+                  to="/resources"
+                  onClick={() => setIsOpen(false)}
+                  className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                >
+                  Resources
+                </Link>
+
+                <Link
+                  to="/report"
+                  onClick={() => setIsOpen(false)}
+                  className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                >
+                  Report
+                </Link>
+
+                {/* MOBILE ADMIN LINK */}
+                {user?.role === "admin" && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setIsOpen(false)}
+                    className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                  >
+                    Admin Panel
+                  </Link>
+                )}
+
+                <Link
+                  to="/dashboard"
+                  onClick={() => setIsOpen(false)}
+                  className="px-3 py-2 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                >
+                  Dashboard
+                </Link>
+
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsOpen(false);
+                  }}
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <>
                 <Link
@@ -146,6 +154,7 @@ export default function Navbar() {
                 >
                   Login
                 </Link>
+
                 <Link
                   to="/register"
                   onClick={() => setIsOpen(false)}

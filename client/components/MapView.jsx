@@ -15,7 +15,7 @@ L.Icon.Default.mergeOptions({
 export default function MapView({ reports }) {
   const center = reports.length
     ? [reports[0].location.lat, reports[0].location.lng]
-    : [31.632, 75.816]; // Hoshiarpur area fallback
+    : [31.632, 75.816]; 
   return (
     <MapContainer
       center={center}
